@@ -1,0 +1,20 @@
+MuJoCo Pro Trial license activation key, number 144982, type 6.
+
+Issued to Xuefei Li <lixuefei9679@gmail.com>.
+
+Expires April 13, 2020.
+
+This file activates MuJoCo Pro on a single computer with id:
+OSX_560LESSDPMP87SL_C02J02040A8HCF81A109
+
+Do not modify this file. Its entire content, including the
+plain text section, is used by the activation manager.
+
+8c90f1dfad12ffe6fe07879384544c26085d51c886b66a2c0182bcddb5eb9395
+2d54e7a2ad853549977474cfde1ce0a75fa021746ae09442f4a7759579d53c1d
+2d81be9e9dc9a00628ccb4b916d78cd4bba5e9bc6924f032a2320e33b4d19802
+6d31b7f8230774f2beb8ac265c0fd08502326a06cd98bf6fdb817808f2caf317
+9ba2b288b556b922a070a0dc44aa18e1d43cfed3429acba685f84f7272d7d01b
+81e3f5e18e7350a9857c5af903683d3ec6318b979d47a3e02d432fa3eb783e9a
+4dc7d505230044d89d8564a8c0dd058b0262247ef4a7fa92f4f328965f8c5dd9
+d62b6c6f67fd4446ac40b675347684ce107d1f5845091aab8ddf1c99c2c61f31
