@@ -3,6 +3,35 @@ FROM nvidia/cuda:8.0-runtime
 #https://github.com/NVIDIA/nvidia-docker/wiki/CUDA#requirements
 LABEL maintainer="Pascal Brokmeier <public@pascalbrokmeier.de>"
 
+RUN apt-get update \
+     && apt-get install -y --no-install-recommends \
+        apt-utils \
+        build-essential \
+        g++  \
+        git  \
+        curl  \
+        cmake \
+        zlib1g-dev \
+        libjpeg-dev \
+        xvfb \
+        libav-tools \
+        xorg-dev \
+        libboost-all-dev \
+        libsdl2-dev \
+        swig \
+        python3  \
+        python3-dev  \
+        python3-future  \
+        python3-pip  \
+        python3-setuptools  \
+        python3-wheel  \
+        python3-tk \
+        libopenblas-base  \
+        libatlas-dev  \
+        cython3  \
+     && apt-get clean \
+     && rm -rf /var/lib/apt/lists/*
+
 # 0 installing CUDA all the way
 WORKDIR /
 COPY cudnn-8.0-linux-x64-v6.0.tgz /
