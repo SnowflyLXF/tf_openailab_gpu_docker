@@ -3,35 +3,6 @@ FROM nvidia/cuda:8.0-runtime
 #https://github.com/NVIDIA/nvidia-docker/wiki/CUDA#requirements
 LABEL maintainer="Pascal Brokmeier <public@pascalbrokmeier.de>"
 
-RUN apt-get update \
-     && apt-get install -y --no-install-recommends \
-        apt-utils \
-        build-essential \
-        g++  \
-        git  \
-        curl  \
-        cmake \
-        zlib1g-dev \
-        libjpeg-dev \
-        xvfb \
-        libav-tools \
-        xorg-dev \
-        libboost-all-dev \
-        libsdl2-dev \
-        swig \
-        python3  \
-        python3-dev  \
-        python3-future  \
-        python3-pip  \
-        python3-setuptools  \
-        python3-wheel  \
-        python3-tk \
-        libopenblas-base  \
-        libatlas-dev  \
-        cython3  \
-     && apt-get clean \
-     && rm -rf /var/lib/apt/lists/*
-
 # 0 installing CUDA all the way
 WORKDIR /
 COPY cudnn-8.0-linux-x64-v6.0.tgz /
@@ -96,37 +67,3 @@ EXPOSE 5900
 
 COPY run.sh /
 CMD ["/run.sh", "--allow-root"]
-
-RUN curl -o /usr/local/bin/patchelf https://s3-us-west-2.amazonaws.com/openai-sci-artifacts/manual-builds/patchelf_0.9_amd64.elf \
-    && chmod +x /usr/local/bin/patchelf
-
-ENV LANG C.UTF-8
-
-RUN mkdir -p /root/.mujoco \
-    && wget https://www.roboti.us/download/mujoco200_linux.zip -O mujoco.zip \
-    && unzip mujoco.zip -d /root/.mujoco \
-    && mv /root/.mujoco/mujoco200_linux /root/.mujoco/mujoco200 \
-    && rm mujoco.zip
-COPY ./mjkey.txt /root/.mujoco/
-ENV LD_LIBRARY_PATH /root/.mujoco/mujoco200/bin:${LD_LIBRARY_PATH}
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
-
-COPY vendor/Xdummy /usr/local/bin/Xdummy
-RUN chmod +x /usr/local/bin/Xdummy
-
-# Workaround for https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers-375/+bug/1674677
-COPY ./vendor/10_nvidia.json /usr/share/glvnd/egl_vendor.d/10_nvidia.json
-
-WORKDIR /mujoco_py
-# Copy over just requirements.txt at first. That way, the Docker cache doesn't
-# expire until we actually change the requirements.
-COPY ./requirements.txt /mujoco_py/
-COPY ./requirements.dev.txt /mujoco_py/
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir -r requirements.dev.txt
-
-# Delay moving in the entire code until the very end.
-ENTRYPOINT ["/mujoco_py/vendor/Xdummy-entrypoint"]
-CMD ["pytest"]
-COPY . /mujoco_py
-RUN python setup.py install
